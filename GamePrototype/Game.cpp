@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "Game.h"
+#include "utils.h"
+using namespace utils;
 
 Game::Game( const Window& window ) 
-	:BaseGame{ window }
+	:BaseGame{ window }, TerritoryWidth(150)
 {
 	Initialize();
 }
@@ -37,7 +39,9 @@ void Game::Update( float elapsedSec )
 
 void Game::Draw( ) const
 {
+	 
 	ClearBackground( );
+	GameField();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
@@ -105,6 +109,20 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 
 void Game::ClearBackground( ) const
 {
-	glClearColor( 0.0f, 0.0f, 0.3f, 1.0f );
+	glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 	glClear( GL_COLOR_BUFFER_BIT );
+}
+
+void Game::GameField() const
+{
+	
+	SetColor(Color4f{ 0.8f, 0.8f, 0.8f, 1.0f });
+
+	
+	DrawLine(TerritoryWidth, 0, TerritoryWidth, GetViewPort().height, 2.0f);
+	DrawLine(GetViewPort().width / 2 - TerritoryWidth / 2, 0, GetViewPort().width / 2 - TerritoryWidth / 2, GetViewPort().height, 2.0f);
+	DrawLine(GetViewPort().width / 2 + TerritoryWidth / 2, 0, GetViewPort().width / 2 + TerritoryWidth / 2, GetViewPort().height, 2.0f);
+	
+	DrawLine(GetViewPort().width - TerritoryWidth, 0, GetViewPort().width-TerritoryWidth, GetViewPort().height, 2.0f);
+	
 }

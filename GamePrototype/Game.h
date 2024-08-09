@@ -27,4 +27,6 @@ private:
 	void Initialize();
 	void Cleanup( );
 	void ClearBackground( ) const;
+	void GameField() const;
+	float TerritoryWidth;
 };
