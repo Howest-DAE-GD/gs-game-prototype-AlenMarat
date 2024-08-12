@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Game.h"
 #include "utils.h"
+#include <ctime>
+#include "Ballon.h"
 using namespace utils;
 
 Game::Game( const Window& window ) 
@@ -16,25 +18,29 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	
+	//srand(static_cast<unsigned int>(time(nullptr)));
+	Ballon* B = new Ballon(this,Point2f(50, 50), 30, Color4f(1.0f, 1.0f, 1.0f, 1.0f));
+	Entitys.push_back(B);
+	Ballon* A = new Ballon(this, Point2f(50, 150), 40, Color4f(1.5f, 1.2f, 0.6f, 0.7f));
+	Entitys.push_back(A);
+	Entitys[0]->SetState(Entity::State::Moving);
 }
 
 void Game::Cleanup( )
 {
+	for (auto& Entity: Entitys) 
+	{
+		delete Entity;
+		Entity = nullptr;
+	}
 }
 
 void Game::Update( float elapsedSec )
 {
-	// Check keyboard state
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
-	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
+	for (auto& entity : Entitys)
+	{
+		entity->Update(elapsedSec);
+	}
 }
 
 void Game::Draw( ) const
@@ -42,6 +48,10 @@ void Game::Draw( ) const
 	 
 	ClearBackground( );
 	GameField();
+	for (auto& entity : Entitys)
+	{
+		entity->Draw();
+	}
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )

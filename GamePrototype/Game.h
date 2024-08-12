@@ -1,5 +1,8 @@
 #pragma once
+#include "pch.h"
 #include "BaseGame.h"
+#include <vector>
+#include "Entity.h"
 class Game : public BaseGame
 {
 public:
@@ -29,4 +32,5 @@ private:
 	void ClearBackground( ) const;
 	void GameField() const;
 	float TerritoryWidth;
+	std::vector<Entity*>Entitys;
 };
