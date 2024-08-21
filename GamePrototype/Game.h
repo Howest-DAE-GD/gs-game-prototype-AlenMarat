@@ -3,6 +3,9 @@
 #include "BaseGame.h"
 #include <vector>
 #include "Entity.h"
+
+class Ballon;
+
 class Game : public BaseGame
 {
 public:
@@ -33,4 +36,5 @@ private:
 	void GameField() const;
 	float TerritoryWidth;
 	std::vector<Entity*>Entitys;
+	Ballon* m_CurrentBallon;
 };

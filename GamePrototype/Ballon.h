@@ -1,6 +1,7 @@
 #pragma once
 #include "structs.h"
 #include "Entity.h"
+#include "Vector2f.h"
 
 class Ballon : public Entity 
 {
@@ -9,9 +10,11 @@ public:
 	
 	void Update(float elapsedSec) override;
 	void Draw() const override;
-
+	Circlef getGeometry();
 private:
-	float m_Velocity;
+	Circlef m_Geometry;
+	Vector2f m_Velocity;
 	Color4f BallonColor;
 	float Radius;
+	
 };
