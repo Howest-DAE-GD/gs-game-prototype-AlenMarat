@@ -3,6 +3,8 @@
 #include "Entity.h"
 #include "Vector2f.h"
 
+
+
 class Ballon : public Entity 
 {
 public:
@@ -11,10 +13,14 @@ public:
 	void Update(float elapsedSec) override;
 	void Draw() const override;
 	Circlef getGeometry();
+	float getR();
+	bool HasExited() const;
+
 private:
 	Circlef m_Geometry;
 	Vector2f m_Velocity;
 	Color4f BallonColor;
 	float Radius;
-	
+	bool m_HasExited;
+
 };

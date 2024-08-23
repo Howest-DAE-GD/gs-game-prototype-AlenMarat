@@ -28,7 +28,11 @@ public:
 	void ProcessMouseUpEvent( const SDL_MouseButtonEvent& e ) override;
 
 private:
-
+	float radMax;
+	float radMin;
+	int maxBalls = 8;
+	int minBalls = 4;
+	int numBalls;
 	// FUNCTIONS
 	void Initialize();
 	void Cleanup( );
@@ -37,4 +41,6 @@ private:
 	float TerritoryWidth;
 	std::vector<Entity*>Entitys;
 	Ballon* m_CurrentBallon;
+	float EnemyTerritory;
+	int getNumpofBalls();
 };

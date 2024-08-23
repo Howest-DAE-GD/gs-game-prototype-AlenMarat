@@ -3,6 +3,7 @@
 #include "structs.h"
 #include <vector>
 
+
 class Game;
 
 class Entity
