@@ -27,11 +27,12 @@ public:
 
     void SetState(State newState);  
     State GetState() const; 
+    State m_CurrentState{ State::Calm };
 
 protected:
     Game* m_pGame; 
     Point2f m_CurrentPoint;  
-    State m_CurrentState{ State::Calm }; 
+    
     State m_PrevState{ State::Calm };  
     bool m_StateInitialized{ false };  
 };

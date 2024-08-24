@@ -11,7 +11,7 @@ Square::Square(Game* game, Point2f start_point, float size, Color4f color,float 
     : Entity(game, start_point), m_Size(size), m_Color(color), m_StartDelay(delay), m_ElapsedTime(0.0f)
 {
 	m_Geometry = Rectf{ start_point.x,start_point.y,size,size };
-    m_PrevState = Entity::State::Calm;
+    //m_PrevState = Entity::State::Calm;
 	m_Velocity = Vector2f{ 0,-300 };
 
 	//m_Velocity = Vector2f{ 0, -200.0f + static_cast<float>(rand() % 200) };
@@ -42,17 +42,14 @@ void Square::Update(float elapsedSec)
 			break;
 		}
 
-	case Entity::State::Calm:
-		{
-			break;
-		}
+	
 	}
 }
 
 bool Square::IsHitting(Ballon* ball) 
 {
-	std::cout << "Square X:" << m_Geometry.left << std::endl;
-	std::cout << "Ball X:" << ball->getGeometry().center.x << std::endl;
+	//std::cout << "Square Y:" << m_Geometry.bottom << std::endl;
+	//std::cout << "Ball X:" << ball->getGeometry().center.x << std::endl;
 	if (IsOverlapping(m_Geometry, ball->getGeometry())) {
 		return true;
 	}

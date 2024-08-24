@@ -6,7 +6,8 @@
 Entity::Entity(Game* game, const Point2f& start_point)
     : m_pGame(game), m_CurrentPoint(start_point)
 {
-    m_CurrentState = Entity::State::Dead;
+    m_PrevState = Entity::State::Dead;
+    m_CurrentState = Entity::State::Calm;
 }
 
 void Entity::SetPosition(const Point2f& newPosition)
@@ -25,7 +26,7 @@ void Entity::SetState(State newState)
     {
         m_PrevState = m_CurrentState;
         m_CurrentState = newState;
-        m_StateInitialized = false;  
+       // m_StateInitialized = false;  
     }
 }
 

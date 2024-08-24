@@ -23,13 +23,14 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	radMax = TerritoryWidth / 2;
+	radMax = TerritoryWidth / 4;
 	radMin = TerritoryWidth / 5;
 	srand(static_cast<unsigned int>(time(nullptr)));
-	Ballon* B = new Ballon(this,Point2f(50, 50), 30, Color4f(1.0f, 1.0f, 1.0f, 1.0f));
-	Entitys.push_back(B);
-	Ballon* A = new Ballon(this, Point2f(50, 200), 40, Color4f(1.5f, 1.2f, 0.6f, 0.7f));
-	Entitys.push_back(A);
+	/*Ballon* B = new Ballon(this,Point2f(50, 50), 30, Color4f(1.0f, 1.0f, 1.0f, 1.0f));
+	Entitys.push_back(B);*/
+	//Ballon* A = new Ballon(this, Point2f(50, 200), 40, Color4f(1.5f, 1.2f, 0.6f, 0.7f));
+	//Entitys.push_back(A);
+	
 	
 	int BallsCount = 0;
 
@@ -38,9 +39,14 @@ void Game::Initialize( )
 	bool isBallsGenerated = true;
 	srand(maxBalls - minBalls);
 	numBalls = round( (float)rand()/RAND_MAX * (maxBalls - minBalls) + minBalls);
+	int enCount = 6;
+
 	std::cout << (float)rand() / RAND_MAX << std::endl;
 	std::cout << numBalls << std::endl;
 	
+	Ballon* n;
+
+	Entitys.reserve(numBalls+enCount);
 	while (isBallsGenerated) {
 		bool isOverlap = false;
 		//[H - EnemyTerritory - R, EnemyTerritory+r]
@@ -52,7 +58,7 @@ void Game::Initialize( )
 
 		float NewBallAlpha = ((float)rand() / RAND_MAX) * (1 - 0.3) + 0.3;
 
-		Ballon* n = new Ballon(this, Point2f{ TerritoryWidth / 2,NewBallY }, NewBallR, Color4f{ 1,1,1,NewBallAlpha });
+		n = new Ballon(this, Point2f{ TerritoryWidth / 2,NewBallY }, NewBallR, Color4f{ 1,1,1,NewBallAlpha });
 		
 		for (auto& e : Entitys) {
 
@@ -78,11 +84,19 @@ void Game::Initialize( )
 
 
 	}
-	m_CurrentBallon = (Ballon*)(Entitys[1]);
+	
+	
+	float enTerritory = GetViewPort().width - 2 * TerritoryWidth;
+	float enLoc = enTerritory / enCount;
+	for (int i = 0; i < enCount ; i++) {
+		float enX = (i + 1) * enLoc + TerritoryWidth;
+		Square* S1 = new Square(this, Point2f(enX, GetViewPort().height), 50, Color4f(1.0f, 0.0f, 0.0f, 1.0f),float(i));
+		Entitys.push_back(S1);
 
-	Square* S1 = new Square(this, Point2f(GetViewPort().width / 2 - 250, GetViewPort().height), 50, Color4f(1.0f, 0.0f, 0.0f, 1.0f),1.0f);
-	Entitys.push_back(S1);
-	Square* S2 = new Square(this, Point2f(GetViewPort().width / 2 + 250, GetViewPort().height), 50, Color4f(0.0f, 1.0f, 0.0f, 1.0f),2.0f);
+	}
+	/*Square* S1 = new Square(this, Point2f(TerritoryWidth, GetViewPort().height), 50, Color4f(1.0f, 0.0f, 0.0f, 1.0f),0.0f);
+	Entitys.push_back(S1);*/
+	/*Square* S2 = new Square(this, Point2f(GetViewPort().width / 2 + 250, GetViewPort().height), 50, Color4f(0.0f, 1.0f, 0.0f, 1.0f), 2.0f);
 	Entitys.push_back(S2);
 	Square* S3 = new Square(this, Point2f(GetViewPort().width / 2 - 125, GetViewPort().height), 50, Color4f(0.0f, 1.0f, 0.0f, 1.0f),3.0f);
 	Entitys.push_back(S3);
@@ -90,16 +104,21 @@ void Game::Initialize( )
 	Entitys.push_back(S4);
 	Square* S5 = new Square(this, Point2f(GetViewPort().width / 2 - 37, GetViewPort().height), 50, Color4f(0.0f, 1.0f, 0.0f, 1.0f),5.0f);
 	Entitys.push_back(S5);
-	
+	*/
 
-	Entitys[1]->SetState(Entity::State::Moving);
-	Entitys[2]->SetState(Entity::State::Moving);
-	Entitys[3]->SetState(Entity::State::Moving);
-	Entitys[7]->SetState(Entity::State::Moving);
+	//Entitys[1]->SetState(Entity::State::Moving);
+	m_CurrentBallon = (Ballon*)(Entitys[0]);
+	m_CurrentBallon->SetState(Entity::State::Moving);
+	//Entitys[2]->SetState(Entity::State::Moving);
+	//Entitys[3]->SetState(Entity::State::Moving);
+	/*Entitys[7]->SetState(Entity::State::Moving);
 	Entitys[6]->SetState(Entity::State::Moving);
 	Entitys[8]->SetState(Entity::State::Moving);
 	Entitys[9]->SetState(Entity::State::Moving);
-	Entitys[10]->SetState(Entity::State::Moving);
+	Entitys[10]->SetState(Entity::State::Moving);*/
+	for (int i = numBalls; i < Entitys.size(); i++) {
+		Entitys[i]->SetState(Entity::State::Moving); 
+	}
 }
 
 void Game::Cleanup( )
@@ -113,7 +132,7 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
-	for (int i = getNumpofBalls(); i < 4; Entitys.size()) {
+	for (int i = getNumpofBalls(); i < Entitys.size();i++) {
 		if ( (dynamic_cast<Square*>(Entitys[i]))->IsHitting(m_CurrentBallon) ) {
 			m_CurrentBallon->SetState(Entity::State::Dead);
 		}
@@ -128,6 +147,7 @@ void Game::Update( float elapsedSec )
 		Ballon* ballon = dynamic_cast<Ballon*>(entity);
 		if (ballon && ballon->HasExited())
 		{
+			std::cout << "Ballon has exited. Set to Calm state." << std::endl;
 			ballon->SetState(Entity::State::Calm); 
 		}
 	}
@@ -157,11 +177,11 @@ void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 		{
 		case SDLK_UP:
 			
-			m_CurrentBallon->SetPosition(Point2f{ m_CurrentBallon->GetPosition().x, m_CurrentBallon->GetPosition().y + 10.0f });
+			m_CurrentBallon->setVelocity(Vector2f{ m_CurrentBallon->getVelocity().x, 250});
 			break;
 		case SDLK_DOWN:
 			
-			m_CurrentBallon->SetPosition(Point2f{ m_CurrentBallon->GetPosition().x, m_CurrentBallon->GetPosition().y - 10.0f });
+			m_CurrentBallon->setVelocity(Vector2f(m_CurrentBallon->getVelocity().x, -250));
 			break;
 		}
 	}
@@ -224,6 +244,10 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 	//	break;
 	//}
 }
+float Game::getTerrWidth() {
+	return TerritoryWidth;
+}
+
 
 void Game::ClearBackground( ) const
 {
