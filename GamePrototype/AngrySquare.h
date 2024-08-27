@@ -1,11 +1,13 @@
 #pragma once
+#pragma once
+#pragma once
 #include "Entity.h"
 #include "Ballon.h"
 
-class Square : public Entity
+class AngrySquare : public Entity
 {
 public:
-    Square(Game* game, Point2f start_point, float size, Color4f color, float delay);
+    AngrySquare(Game* game, Point2f start_point, float size, Color4f color, float delay);
 
     void Update(float elapsedSec) override;
     void Draw() const override;
@@ -21,5 +23,10 @@ private:
     float MAXVelocity = 500;
     float MINVelocity = 200;
     bool blockKeys;
+    float m_Frequency;
+    float m_yflyRange;
 };
+
+
+
 

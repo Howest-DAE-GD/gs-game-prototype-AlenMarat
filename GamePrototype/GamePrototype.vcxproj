@@ -147,6 +147,7 @@ xcopy "$(SolutionDir)Resources\*.*" "$(TargetDir)" /y /d /s</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AngrySquare.cpp" />
     <ClCompile Include="Ballon.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -155,6 +156,7 @@ xcopy "$(SolutionDir)Resources\*.*" "$(TargetDir)" /y /d /s</Command>
     <ClCompile Include="Square.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AngrySquare.h" />
     <ClInclude Include="Ballon.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="pch.h" />

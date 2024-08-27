@@ -5,24 +5,27 @@
 #include <iostream>
 
 
-class Ballon : public Entity 
+class Ballon : public Entity
 {
 public:
-	Ballon(Game* game, Point2f start_point,  float Radius, Color4f BC);
-	
+	Ballon(Game* game, Point2f start_point, float Radius, Color4f BC);
+
 	void Update(float elapsedSec) override;
 	void Draw() const override;
 	Circlef getGeometry();
-	
+	bool HasExited();
 	float getR();
-	bool HasExited() const;
+	//bool HasExited() const;
 	void setVelocity(Vector2f V);
 	Vector2f getVelocity();
+	void setBlock(bool state);
+
 private:
 	Circlef m_Geometry;
 	Vector2f m_Velocity;
 	Color4f BallonColor;
 	float Radius;
 	bool m_HasExited;
+	bool blockKeys;
 
 };
